@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+@section scripts {
+    <script type="text/javascript">
+        var obj;
+        function onResize(e) {
+            $("#main").height(window.innerHeight - $("main_header").outerHeight() - $("main_footer").outerHeight() - 130);
+            $.perl.dockCtrls($("#main"));
+        }
+
+
+
+
+        $(document).ready(function () {
+            //ChangeNote = $.perl.getChangeNote("99999999-9999-9999-9999-999999999999");
+            //ChangeNote.renderView($("#main"), "edit");
+            obj = $.perl.getOriginationNotes();
+            obj.renderView($("#main"), "listEdit");
+            //obj = $.perl.getChangeNoteStates();
+            //obj.renderView($("#main"), "listEdit");
+
+
+            $(window).bind("resize", onResize);
+            onResize();
+        });
+    </script>
+
+}

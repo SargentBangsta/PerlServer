@@ -1,0 +1,81 @@
+﻿
+.perl_user {
+    float: right;
+}
+#main_header {
+    font-size: 2em;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    color: #000000;
+    padding-right: 20px;
+    padding-left: 20px;
+}
+.perl-header {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.perl-body {
+    height: 600px;
+}
+.perl-left-column {
+    width: 400px;
+    display:inline-block;
+}
+.perl-right-column {
+    width: 400px;
+    display: inline-block;
+    /*background-color: #FFFFCC;*/
+}
+.perl-ordered-list {
+    display : table;
+}
+.perl-list-item {
+    color: #999999;
+    cursor: pointer;
+    text-align: left;
+}
+.perl-selected {
+    font-weight: bold;
+    color: #000000;
+    text-align: right;
+}
+.perl-footer {
+    padding: 2px 10px 2px 10px;
+    height: 32px;
+}
+.perl-button {
+    margin: 2px;
+    padding: 2px 4px 2px 4px;
+    border: 1px solid #666666;
+    height: 22px;
+    text-align: center;
+    vertical-align: middle;
+    float: right;
+    overflow: hidden;
+    background-color: #CCCCCC;
+    font-size: 14px;
+    line-height: 14px;
+}
+.perl-scrollable {
+    vertical-align: top;
+} 
+.perl-message-error {
+    color: #FF0000;
+    font-weight: bold;
+}
+.perl-float-center {
+    position: relative;
+}
+.perl-field-label {
+    padding: 2px 10px 2px 2px;
+}
+.perl-field-input {
+    border: 1px solid #000066;
+    padding: 2px 2px 2px 10px;
+    width: 400px;
+    display: table-caption;
+}
+td {
+    vertical-align : top;
+    text-align: right;
+}

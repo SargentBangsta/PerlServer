@@ -1,0 +1,271 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="perlDbModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="perlDbModelStoreContainer">
+          <EntitySet Name="ChangeNotes" EntityType="perlDbModel.Store.ChangeNotes" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ChangeNoteStates" EntityType="perlDbModel.Store.ChangeNoteStates" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Documents" EntityType="perlDbModel.Store.Documents" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="OriginationNotes" EntityType="perlDbModel.Store.OriginationNotes" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK__ChangeNot__ptrOr__5CD6CB2B" Association="perlDbModel.Store.FK__ChangeNot__ptrOr__5CD6CB2B">
+            <End Role="OriginationNotes" EntitySet="OriginationNotes" />
+            <End Role="ChangeNotes" EntitySet="ChangeNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ChangeNot__Statu__34C8D9D1" Association="perlDbModel.Store.FK__ChangeNot__Statu__34C8D9D1">
+            <End Role="ChangeNoteStates" EntitySet="ChangeNoteStates" />
+            <End Role="ChangeNotes" EntitySet="ChangeNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Documents_ChangeNotes" Association="perlDbModel.Store.FK_Documents_ChangeNotes">
+            <End Role="ChangeNotes" EntitySet="ChangeNotes" />
+            <End Role="Documents" EntitySet="Documents" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="ChangeNotes">
+          <Key>
+            <PropertyRef Name="ChangeNoteId" />
+          </Key>
+          <Property Name="ChangeNoteId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ChangeNoteNumber" Type="int" Nullable="false" />
+          <Property Name="VersionNumber" Type="int" Nullable="false" />
+          <Property Name="ChangeDescription" Type="nchar" Nullable="false" MaxLength="500" />
+          <Property Name="ChangeDate" Type="datetime" Nullable="false" />
+          <Property Name="Status" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ptrOriginationNote" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ChangeNoteStates">
+          <Key>
+            <PropertyRef Name="ChangeNoteStateId" />
+          </Key>
+          <Property Name="ChangeNoteStateId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Code" Type="varchar" Nullable="false" MaxLength="10" />
+          <Property Name="DisplayOrder" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Documents">
+          <Key>
+            <PropertyRef Name="DocumentId" />
+          </Key>
+          <Property Name="DocumentId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DocumentURL" Type="nvarchar" Nullable="false" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="OriginationNotes">
+          <Key>
+            <PropertyRef Name="OriginationNoteId" />
+          </Key>
+          <Property Name="OriginationNoteId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="OriginationNoteNumber" Type="int" Nullable="false" />
+          <Property Name="RevisionNumber" Type="int" Nullable="false" />
+          <Property Name="DocumentName" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="DocumentDescription" Type="varchar" Nullable="false" MaxLength="500" />
+          <Property Name="DocumentNumber" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__ChangeNot__ptrOr__5CD6CB2B">
+          <End Role="OriginationNotes" Type="perlDbModel.Store.OriginationNotes" Multiplicity="1" />
+          <End Role="ChangeNotes" Type="perlDbModel.Store.ChangeNotes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OriginationNotes">
+              <PropertyRef Name="OriginationNoteId" />
+            </Principal>
+            <Dependent Role="ChangeNotes">
+              <PropertyRef Name="ptrOriginationNote" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ChangeNot__Statu__34C8D9D1">
+          <End Role="ChangeNoteStates" Type="perlDbModel.Store.ChangeNoteStates" Multiplicity="1" />
+          <End Role="ChangeNotes" Type="perlDbModel.Store.ChangeNotes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ChangeNoteStates">
+              <PropertyRef Name="ChangeNoteStateId" />
+            </Principal>
+            <Dependent Role="ChangeNotes">
+              <PropertyRef Name="Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Documents_ChangeNotes">
+          <End Role="ChangeNotes" Type="perlDbModel.Store.ChangeNotes" Multiplicity="1" />
+          <End Role="Documents" Type="perlDbModel.Store.Documents" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="ChangeNotes">
+              <PropertyRef Name="ChangeNoteId" />
+            </Principal>
+            <Dependent Role="Documents">
+              <PropertyRef Name="DocumentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="perlDbModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="perlDbEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="ChangeNotes" EntityType="perlDbModel.ChangeNote" />
+          <EntitySet Name="ChangeNoteStates" EntityType="perlDbModel.ChangeNoteState" />
+          <EntitySet Name="Documents" EntityType="perlDbModel.Document" />
+          <AssociationSet Name="FK__ChangeNot__Statu__34C8D9D1" Association="perlDbModel.FK__ChangeNot__Statu__34C8D9D1">
+            <End Role="ChangeNoteStates" EntitySet="ChangeNoteStates" />
+            <End Role="ChangeNotes" EntitySet="ChangeNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Documents_ChangeNotes" Association="perlDbModel.FK_Documents_ChangeNotes">
+            <End Role="ChangeNotes" EntitySet="ChangeNotes" />
+            <End Role="Documents" EntitySet="Documents" />
+          </AssociationSet>
+          <EntitySet Name="OriginationNotes" EntityType="perlDbModel.OriginationNote" />
+          <AssociationSet Name="FK__ChangeNot__ptrOr__5CD6CB2B" Association="perlDbModel.FK__ChangeNot__ptrOr__5CD6CB2B">
+            <End Role="OriginationNote" EntitySet="OriginationNotes" />
+            <End Role="ChangeNote" EntitySet="ChangeNotes" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="ChangeNote">
+          <Key>
+            <PropertyRef Name="ChangeNoteId" />
+          </Key>
+          <Property Name="ChangeNoteId" Type="Guid" Nullable="false" />
+          <Property Name="ChangeNoteNumber" Type="Int32" Nullable="false" />
+          <Property Name="VersionNumber" Type="Int32" Nullable="false" />
+          <Property Name="ChangeDescription" Type="String" Nullable="false" MaxLength="500" Unicode="true" FixedLength="true" />
+          <Property Name="ChangeDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Status" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="ChangeNoteState" Relationship="perlDbModel.FK__ChangeNot__Statu__34C8D9D1" FromRole="ChangeNotes" ToRole="ChangeNoteStates" />
+          <NavigationProperty Name="Document" Relationship="perlDbModel.FK_Documents_ChangeNotes" FromRole="ChangeNotes" ToRole="Documents" />
+          <Property Type="Guid" Name="ptrOriginationNote" Nullable="false" />
+          <NavigationProperty Name="OriginationNote" Relationship="perlDbModel.FK__ChangeNot__ptrOr__5CD6CB2B" FromRole="ChangeNote" ToRole="OriginationNote" />
+        </EntityType>
+        <EntityType Name="ChangeNoteState">
+          <Key>
+            <PropertyRef Name="ChangeNoteStateId" />
+          </Key>
+          <Property Name="ChangeNoteStateId" Type="Guid" Nullable="false" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="DisplayOrder" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ChangeNotes" Relationship="perlDbModel.FK__ChangeNot__Statu__34C8D9D1" FromRole="ChangeNoteStates" ToRole="ChangeNotes" />
+        </EntityType>
+        <EntityType Name="Document">
+          <Key>
+            <PropertyRef Name="DocumentId" />
+          </Key>
+          <Property Name="DocumentId" Type="Guid" Nullable="false" />
+          <Property Name="DocumentURL" Type="String" Nullable="false" MaxLength="500" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="ChangeNote" Relationship="perlDbModel.FK_Documents_ChangeNotes" FromRole="Documents" ToRole="ChangeNotes" />
+        </EntityType>
+        <Association Name="FK__ChangeNot__Statu__34C8D9D1">
+          <End Role="ChangeNoteStates" Type="perlDbModel.ChangeNoteState" Multiplicity="1" />
+          <End Role="ChangeNotes" Type="perlDbModel.ChangeNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ChangeNoteStates">
+              <PropertyRef Name="ChangeNoteStateId" />
+            </Principal>
+            <Dependent Role="ChangeNotes">
+              <PropertyRef Name="Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Documents_ChangeNotes">
+          <End Role="ChangeNotes" Type="perlDbModel.ChangeNote" Multiplicity="1" />
+          <End Role="Documents" Type="perlDbModel.Document" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="ChangeNotes">
+              <PropertyRef Name="ChangeNoteId" />
+            </Principal>
+            <Dependent Role="Documents">
+              <PropertyRef Name="DocumentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="OriginationNote">
+          <Key>
+            <PropertyRef Name="OriginationNoteId" />
+          </Key>
+          <Property Type="Guid" Name="OriginationNoteId" Nullable="false" />
+          <Property Type="Int32" Name="OriginationNoteNumber" Nullable="false" />
+          <Property Type="Int32" Name="RevisionNumber" Nullable="false" />
+          <Property Type="String" Name="DocumentName" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="DocumentDescription" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="DocumentNumber" Nullable="false" />
+          <NavigationProperty Name="ChangeNotes" Relationship="perlDbModel.FK__ChangeNot__ptrOr__5CD6CB2B" FromRole="OriginationNote" ToRole="ChangeNote" />
+        </EntityType>
+        <Association Name="FK__ChangeNot__ptrOr__5CD6CB2B">
+          <End Type="perlDbModel.OriginationNote" Role="OriginationNote" Multiplicity="1" />
+          <End Type="perlDbModel.ChangeNote" Role="ChangeNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OriginationNote">
+              <PropertyRef Name="OriginationNoteId" />
+            </Principal>
+            <Dependent Role="ChangeNote">
+              <PropertyRef Name="ptrOriginationNote" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="perlDbModelStoreContainer" CdmEntityContainer="perlDbEntities">
+    <EntitySetMapping Name="ChangeNotes">
+      <EntityTypeMapping TypeName="IsTypeOf(perlDbModel.ChangeNote)">
+        <MappingFragment StoreEntitySet="ChangeNotes">
+          <ScalarProperty Name="ptrOriginationNote" ColumnName="ptrOriginationNote" />
+                <ScalarProperty Name="ChangeNoteId" ColumnName="ChangeNoteId" />
+          <ScalarProperty Name="ChangeNoteNumber" ColumnName="ChangeNoteNumber" />
+          <ScalarProperty Name="VersionNumber" ColumnName="VersionNumber" />
+          <ScalarProperty Name="ChangeDescription" ColumnName="ChangeDescription" />
+          <ScalarProperty Name="ChangeDate" ColumnName="ChangeDate" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ChangeNoteStates">
+      <EntityTypeMapping TypeName="IsTypeOf(perlDbModel.ChangeNoteState)">
+        <MappingFragment StoreEntitySet="ChangeNoteStates">
+          <ScalarProperty Name="ChangeNoteStateId" ColumnName="ChangeNoteStateId" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Documents">
+      <EntityTypeMapping TypeName="IsTypeOf(perlDbModel.Document)">
+        <MappingFragment StoreEntitySet="Documents">
+          <ScalarProperty Name="DocumentId" ColumnName="DocumentId" />
+          <ScalarProperty Name="DocumentURL" ColumnName="DocumentURL" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+          <EntitySetMapping Name="OriginationNotes">
+            <EntityTypeMapping TypeName="perlDbModel.OriginationNote">
+              <MappingFragment StoreEntitySet="OriginationNotes">
+                <ScalarProperty Name="DocumentNumber" ColumnName="DocumentNumber" />
+                <ScalarProperty Name="DocumentDescription" ColumnName="DocumentDescription" />
+                <ScalarProperty Name="DocumentName" ColumnName="DocumentName" />
+                <ScalarProperty Name="RevisionNumber" ColumnName="RevisionNumber" />
+                <ScalarProperty Name="OriginationNoteNumber" ColumnName="OriginationNoteNumber" />
+                <ScalarProperty Name="OriginationNoteId" ColumnName="OriginationNoteId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

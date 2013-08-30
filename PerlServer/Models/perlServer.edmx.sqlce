@@ -1,0 +1,313 @@
+
+-- --------------------------------------------------
+-- Entity Designer DDL Script for SQL Server Compact Edition
+-- --------------------------------------------------
+-- Date Created: 06/07/2013 16:56:46
+-- Generated from EDMX file: C:\Users\steve.p\documents\visual studio 2012\Projects\PerlServer\PerlServer\Models\perlServer.edmx
+-- --------------------------------------------------
+
+
+-- --------------------------------------------------
+-- Dropping existing FOREIGN KEY constraints
+-- NOTE: if the constraint does not exist, an ignorable error will be reported.
+-- --------------------------------------------------
+
+    ALTER TABLE [Projects] DROP CONSTRAINT [FK_ProjectProject];
+GO
+    ALTER TABLE [Documents] DROP CONSTRAINT [FK_OriginationNoteOriginalDocument];
+GO
+    ALTER TABLE [Documents] DROP CONSTRAINT [FK_ChangeNoteOriginalDocument];
+GO
+    ALTER TABLE [ChangeNotes] DROP CONSTRAINT [FK_OriginationNoteChangeNote];
+GO
+    ALTER TABLE [OriginationNotes] DROP CONSTRAINT [FK_DocumentStateOriginationNote];
+GO
+    ALTER TABLE [ChangeNotes] DROP CONSTRAINT [FK_DocumentStateChangeNote];
+GO
+    ALTER TABLE [ChangeNotes] DROP CONSTRAINT [FK_UserChangeNote];
+GO
+    ALTER TABLE [OriginationNotes] DROP CONSTRAINT [FK_UserOriginationNote];
+GO
+
+-- --------------------------------------------------
+-- Dropping existing tables
+-- NOTE: if the table does not exist, an ignorable error will be reported.
+-- --------------------------------------------------
+
+    DROP TABLE [Accounts];
+GO
+    DROP TABLE [CostCenters];
+GO
+    DROP TABLE [Projects];
+GO
+    DROP TABLE [Users];
+GO
+    DROP TABLE [OriginationNotes];
+GO
+    DROP TABLE [ChangeNotes];
+GO
+    DROP TABLE [Documents];
+GO
+    DROP TABLE [DocumentStates];
+GO
+
+-- --------------------------------------------------
+-- Creating all tables
+-- --------------------------------------------------
+
+-- Creating table 'Accounts'
+CREATE TABLE [Accounts] (
+    [AccountId] uniqueidentifier  NOT NULL,
+    [AccountCode] nvarchar(10)  NULL,
+    [AccountDescription] nvarchar(100)  NULL
+);
+GO
+
+-- Creating table 'CostCenters'
+CREATE TABLE [CostCenters] (
+    [CostCenterId] uniqueidentifier  NOT NULL,
+    [CostCenterCode] nvarchar(10)  NULL,
+    [CostCenterDescription] nvarchar(100)  NULL
+);
+GO
+
+-- Creating table 'Projects'
+CREATE TABLE [Projects] (
+    [ProjectId] uniqueidentifier  NOT NULL,
+    [ProjectCode] nvarchar(10)  NOT NULL,
+    [ProjectDescription] nvarchar(100)  NULL,
+    [Version] int  NULL,
+    [Revision] int  NULL,
+    [ParentProjectId] uniqueidentifier  NULL,
+    [ParentProject_ProjectId] uniqueidentifier  NOT NULL
+);
+GO
+
+-- Creating table 'Users'
+CREATE TABLE [Users] (
+    [UserId] uniqueidentifier  NOT NULL,
+    [UserName] nvarchar(100)  NULL
+);
+GO
+
+-- Creating table 'OriginationNotes'
+CREATE TABLE [OriginationNotes] (
+    [OriginationNoteID] uniqueidentifier  NOT NULL,
+    [OriginationNoteNumber] int IDENTITY(1,1) NOT NULL,
+    [OriginationNoteName] nvarchar(100)  NOT NULL,
+    [OriginationNoteDescription] nvarchar(500)  NOT NULL,
+    [OriginatorId] uniqueidentifier  NOT NULL,
+    [OriginationDate] datetime  NOT NULL,
+    [DocumentURL] nvarchar(200)  NOT NULL,
+    [Status] uniqueidentifier  NOT NULL,
+    [DocumentNumber] nvarchar(4000)  NOT NULL,
+    [DocumentState_DocumentStateId] uniqueidentifier  NOT NULL,
+    [User_UserId] uniqueidentifier  NOT NULL
+);
+GO
+
+-- Creating table 'ChangeNotes'
+CREATE TABLE [ChangeNotes] (
+    [ChangeNoteId] uniqueidentifier  NOT NULL,
+    [OriginationNoteId] uniqueidentifier  NOT NULL,
+    [ChangeNoteNumber] nvarchar(4000)  NOT NULL,
+    [ChangeDescription] nvarchar(4000)  NOT NULL,
+    [ChangeDate] datetime  NOT NULL,
+    [ChangedById] nvarchar(4000)  NOT NULL,
+    [DocumentURL] nvarchar(4000)  NOT NULL,
+    [Status] uniqueidentifier  NOT NULL,
+    [OriginationNote_OriginationNoteID] uniqueidentifier  NOT NULL,
+    [DocumentState_DocumentStateId] uniqueidentifier  NOT NULL,
+    [User_UserId] uniqueidentifier  NOT NULL
+);
+GO
+
+-- Creating table 'Documents'
+CREATE TABLE [Documents] (
+    [DocumentId] uniqueidentifier  NOT NULL,
+    [RevisionId] uniqueidentifier  NOT NULL,
+    [VersionID] uniqueidentifier  NOT NULL,
+    [data] varbinary(8000)  NOT NULL,
+    [OriginationNote_OriginationNoteID] uniqueidentifier  NOT NULL,
+    [ChangeNote_ChangeNoteId] uniqueidentifier  NOT NULL
+);
+GO
+
+-- Creating table 'DocumentStates'
+CREATE TABLE [DocumentStates] (
+    [DocumentStateId] uniqueidentifier  NOT NULL,
+    [StateName] nvarchar(4000)  NOT NULL
+);
+GO
+
+-- --------------------------------------------------
+-- Creating all PRIMARY KEY constraints
+-- --------------------------------------------------
+
+-- Creating primary key on [AccountId] in table 'Accounts'
+ALTER TABLE [Accounts]
+ADD CONSTRAINT [PK_Accounts]
+    PRIMARY KEY ([AccountId] );
+GO
+
+-- Creating primary key on [CostCenterId] in table 'CostCenters'
+ALTER TABLE [CostCenters]
+ADD CONSTRAINT [PK_CostCenters]
+    PRIMARY KEY ([CostCenterId] );
+GO
+
+-- Creating primary key on [ProjectId] in table 'Projects'
+ALTER TABLE [Projects]
+ADD CONSTRAINT [PK_Projects]
+    PRIMARY KEY ([ProjectId] );
+GO
+
+-- Creating primary key on [UserId] in table 'Users'
+ALTER TABLE [Users]
+ADD CONSTRAINT [PK_Users]
+    PRIMARY KEY ([UserId] );
+GO
+
+-- Creating primary key on [OriginationNoteID] in table 'OriginationNotes'
+ALTER TABLE [OriginationNotes]
+ADD CONSTRAINT [PK_OriginationNotes]
+    PRIMARY KEY ([OriginationNoteID] );
+GO
+
+-- Creating primary key on [ChangeNoteId] in table 'ChangeNotes'
+ALTER TABLE [ChangeNotes]
+ADD CONSTRAINT [PK_ChangeNotes]
+    PRIMARY KEY ([ChangeNoteId] );
+GO
+
+-- Creating primary key on [DocumentId] in table 'Documents'
+ALTER TABLE [Documents]
+ADD CONSTRAINT [PK_Documents]
+    PRIMARY KEY ([DocumentId] );
+GO
+
+-- Creating primary key on [DocumentStateId] in table 'DocumentStates'
+ALTER TABLE [DocumentStates]
+ADD CONSTRAINT [PK_DocumentStates]
+    PRIMARY KEY ([DocumentStateId] );
+GO
+
+-- --------------------------------------------------
+-- Creating all FOREIGN KEY constraints
+-- --------------------------------------------------
+
+-- Creating foreign key on [ParentProject_ProjectId] in table 'Projects'
+ALTER TABLE [Projects]
+ADD CONSTRAINT [FK_ProjectProject]
+    FOREIGN KEY ([ParentProject_ProjectId])
+    REFERENCES [Projects]
+        ([ProjectId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ProjectProject'
+CREATE INDEX [IX_FK_ProjectProject]
+ON [Projects]
+    ([ParentProject_ProjectId]);
+GO
+
+-- Creating foreign key on [OriginationNote_OriginationNoteID] in table 'Documents'
+ALTER TABLE [Documents]
+ADD CONSTRAINT [FK_OriginationNoteOriginalDocument]
+    FOREIGN KEY ([OriginationNote_OriginationNoteID])
+    REFERENCES [OriginationNotes]
+        ([OriginationNoteID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_OriginationNoteOriginalDocument'
+CREATE INDEX [IX_FK_OriginationNoteOriginalDocument]
+ON [Documents]
+    ([OriginationNote_OriginationNoteID]);
+GO
+
+-- Creating foreign key on [ChangeNote_ChangeNoteId] in table 'Documents'
+ALTER TABLE [Documents]
+ADD CONSTRAINT [FK_ChangeNoteOriginalDocument]
+    FOREIGN KEY ([ChangeNote_ChangeNoteId])
+    REFERENCES [ChangeNotes]
+        ([ChangeNoteId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ChangeNoteOriginalDocument'
+CREATE INDEX [IX_FK_ChangeNoteOriginalDocument]
+ON [Documents]
+    ([ChangeNote_ChangeNoteId]);
+GO
+
+-- Creating foreign key on [OriginationNote_OriginationNoteID] in table 'ChangeNotes'
+ALTER TABLE [ChangeNotes]
+ADD CONSTRAINT [FK_OriginationNoteChangeNote]
+    FOREIGN KEY ([OriginationNote_OriginationNoteID])
+    REFERENCES [OriginationNotes]
+        ([OriginationNoteID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_OriginationNoteChangeNote'
+CREATE INDEX [IX_FK_OriginationNoteChangeNote]
+ON [ChangeNotes]
+    ([OriginationNote_OriginationNoteID]);
+GO
+
+-- Creating foreign key on [DocumentState_DocumentStateId] in table 'OriginationNotes'
+ALTER TABLE [OriginationNotes]
+ADD CONSTRAINT [FK_DocumentStateOriginationNote]
+    FOREIGN KEY ([DocumentState_DocumentStateId])
+    REFERENCES [DocumentStates]
+        ([DocumentStateId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_DocumentStateOriginationNote'
+CREATE INDEX [IX_FK_DocumentStateOriginationNote]
+ON [OriginationNotes]
+    ([DocumentState_DocumentStateId]);
+GO
+
+-- Creating foreign key on [DocumentState_DocumentStateId] in table 'ChangeNotes'
+ALTER TABLE [ChangeNotes]
+ADD CONSTRAINT [FK_DocumentStateChangeNote]
+    FOREIGN KEY ([DocumentState_DocumentStateId])
+    REFERENCES [DocumentStates]
+        ([DocumentStateId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_DocumentStateChangeNote'
+CREATE INDEX [IX_FK_DocumentStateChangeNote]
+ON [ChangeNotes]
+    ([DocumentState_DocumentStateId]);
+GO
+
+-- Creating foreign key on [User_UserId] in table 'ChangeNotes'
+ALTER TABLE [ChangeNotes]
+ADD CONSTRAINT [FK_UserChangeNote]
+    FOREIGN KEY ([User_UserId])
+    REFERENCES [Users]
+        ([UserId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_UserChangeNote'
+CREATE INDEX [IX_FK_UserChangeNote]
+ON [ChangeNotes]
+    ([User_UserId]);
+GO
+
+-- Creating foreign key on [User_UserId] in table 'OriginationNotes'
+ALTER TABLE [OriginationNotes]
+ADD CONSTRAINT [FK_UserOriginationNote]
+    FOREIGN KEY ([User_UserId])
+    REFERENCES [Users]
+        ([UserId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_UserOriginationNote'
+CREATE INDEX [IX_FK_UserOriginationNote]
+ON [OriginationNotes]
+    ([User_UserId]);
+GO
+
+-- --------------------------------------------------
+-- Script has ended
+-- --------------------------------------------------
